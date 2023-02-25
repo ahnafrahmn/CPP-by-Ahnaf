@@ -7,7 +7,19 @@ using namespace std;
 
 #define TotalAccounts 500
 static int totalTransactions=0;
+static int accSerial=0;
 bool exitProgram = false;
+
+void logIn();
+void getPassword(int num);
+void head()
+{
+      cout<<"\n ..............................................................................................."<<endl
+                  <<" ...............................................................................................\n"<<endl
+                  <<" \t\t\t\t\t THE BANK \n"<<endl
+                  <<" ..............................................................................................."<<endl
+                  <<" ...............................................................................................\n\n"<<endl;
+}
 
 class BankAccount
 {
@@ -16,7 +28,7 @@ class BankAccount
       double balance=0;
       int individualTransactions=0;
       public:
-      string accountNo="BA";
+      string accountNo="BA", password;
       void getData(int num)
       {
             cout<<" \t\t  Registration of a Bank Account \n\n";
@@ -34,6 +46,7 @@ class BankAccount
             cin>>balance;
             individualTransactions++;
             totalTransactions++;
+            getPassword(num);
             int tempNum = 1000+num;
             stringstream stream;
             stream << tempNum;
@@ -42,7 +55,6 @@ class BankAccount
             accountNo = accountNo.append(tempStr);
             cout<<"\n\n Account registration has been successfully done! \n Your account number is : "<<accountNo<<endl;
       }
-      
       void showData()
       {
             cout<<" Name : "<<name<<endl;
@@ -69,7 +81,6 @@ class BankAccount
             cout<<" Number of transactions : "<<individualTransactions<<endl;
             cout<<" Your account number is : "<<accountNo<<endl;
       }
-      
       void deposit()
       {
             int tempBalance;
@@ -80,7 +91,6 @@ class BankAccount
             totalTransactions++;
             cout<<" Your current balance is "<<balance<<" BDT "<<endl;
       }
-      
       void withdraw()
       {
             int tempBalance;
@@ -95,7 +105,6 @@ class BankAccount
             totalTransactions++;
             cout<<" Your current balance is "<<balance<<" BDT "<<endl;
       }
-      
       void updateData()
       {
             int opt_update;
@@ -120,25 +129,17 @@ class BankAccount
                   goto ask;
             }
       }
+
 };
 
 BankAccount accounts[TotalAccounts];       // Total Accounts = 500
-
-void head()
-{
-      cout<<"\n ..............................................................................................."<<endl
-                  <<" ...............................................................................................\n"<<endl
-                  <<" \t\t\t\t\t THE BANK \n"<<endl
-                  <<" ..............................................................................................."<<endl
-                  <<" ...............................................................................................\n\n"<<endl;
-}
 
 int options(BankAccount a)
 {
       int opt;
       askOptions:
       cout<<"\n\n Please select any : \n"
-                  <<" 1) Show my informations \n 2) Update information \n 3) Deposit \n 4) Withdraw \n 5) Register a new account \n 6) Search Account \n 7) Exit \n : ";
+                  <<" 1) Show my informations \n 2) Update information \n 3) Deposit \n 4) Withdraw \n 5) Register a new account \n 6) Log In \n 7) Exit \n : ";
       cin>>opt;
       if(opt==1)
       {
@@ -179,19 +180,7 @@ int options(BankAccount a)
         system("cls");
         head();
         string temp;
-        bool notFound=true;
-        cout<<"\n Enter Account Number : ";
-        cin>>temp;
-        cout<<"\n\n\n";
-        for(int i=0; i<TotalAccounts; i++)
-        {
-            if(temp==accounts[i].accountNo)
-            {
-                accounts[i].showData();
-                notFound = false;
-            }
-        }
-        if(notFound)cout<<"\n Couldn't find this account. \n\n";
+        logIn();
         options(a);
       } else if(opt==7)
       {
@@ -199,7 +188,6 @@ int options(BankAccount a)
         head();
         cout<<"\n\t\t Thank you so much! \n\n\n";
         exitProgram=true;
-
       }
       else
       {
@@ -208,14 +196,72 @@ int options(BankAccount a)
       }
 }
 
+void logIn()
+{
+      string tempAcc, tempPas;
+      bool notFound=true;
+      cout<<"\n Enter Account Number : ";
+      cin>>tempAcc;
+      cout<<"\n Enter Password : ";
+      cin.ignore();
+      getline(cin, tempPas);
+      for(int i=0; i<TotalAccounts; i++)
+      {
+            if(tempAcc==accounts[i].accountNo && tempPas==accounts[i].password)
+            {
+                system("cls");
+                head();
+                notFound=false;
+                options(accounts[i]);
+            }
+            if(notFound)cout<<"\n Couldn't find this account. \n\n";
+      }
+}
+
+void getPassword(int num)
+{
+      string tempPass1, tempPass2;
+      int pass_opt;
+      pass:
+      cout<<" Enter new password : ";
+      cin.ignore();
+      getline(cin, tempPass1);
+      cout<<" Confirm new password : ";
+      getline(cin, tempPass2);
+      if(tempPass1 != tempPass2)
+      {
+            askPassOpt:
+            cout<<" Passwords did not matched. \n 1) Try again \t 2) Menu \n : ";
+            cin>>pass_opt;
+            if(pass_opt==1)
+            {
+                  system("cls");
+                  head();
+                  goto pass;
+            } else if(pass_opt==2)
+            {
+                  system("cls");
+                  head();
+                  options( accounts[num]);
+            } else
+            {
+                  goto askPassOpt;
+            }
+      }
+      else{
+            accounts[num].password = tempPass2;
+      }
+}
+
+
 int main()
 {
-      for(int i=0; i<TotalAccounts; i++)
+      for(accSerial=0; accSerial<TotalAccounts; accSerial++)
       {
             system("cls");
             head();
-            accounts[i].getData(i);
-            int temp = options(accounts[i]);
+            accounts[accSerial].getData(accSerial);
+            int temp = options(accounts[accSerial]);
             if(exitProgram)
             {
                   return 0;
