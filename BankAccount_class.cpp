@@ -1,6 +1,8 @@
 #include<iostream>
+#include<stdlib.h>
 #include<stdio.h>
 #include<string>
+#include<sstream>
 using namespace std;
 
 #define TotalAccounts 500
@@ -9,11 +11,12 @@ bool exitProgram = false;
 
 class BankAccount
 {
-      string  name,  address, accountNo="BA";
+      string  name,  address;
       int opt_accountType, opt_gender;
       double balance=0;
       int individualTransactions=0;
       public:
+      string accountNo="BA";
       void getData(int num)
       {
             cout<<" \t\t  Registration of a Bank Account \n\n";
@@ -31,10 +34,15 @@ class BankAccount
             cin>>balance;
             individualTransactions++;
             totalTransactions++;
-            string tempStr = to_string(1000+num);
+            int tempNum = 1000+num;
+            stringstream stream;
+            stream << tempNum;
+            string tempStr;
+            stream >> tempStr;
             accountNo = accountNo.append(tempStr);
             cout<<"\n\n Account registration has been successfully done! \n Your account number is : "<<accountNo<<endl;
       }
+      
       void showData()
       {
             cout<<" Name : "<<name<<endl;
@@ -61,6 +69,7 @@ class BankAccount
             cout<<" Number of transactions : "<<individualTransactions<<endl;
             cout<<" Your account number is : "<<accountNo<<endl;
       }
+      
       void deposit()
       {
             int tempBalance;
@@ -71,6 +80,7 @@ class BankAccount
             totalTransactions++;
             cout<<" Your current balance is "<<balance<<" BDT "<<endl;
       }
+      
       void withdraw()
       {
             int tempBalance;
@@ -85,6 +95,7 @@ class BankAccount
             totalTransactions++;
             cout<<" Your current balance is "<<balance<<" BDT "<<endl;
       }
+      
       void updateData()
       {
             int opt_update;
@@ -111,6 +122,8 @@ class BankAccount
       }
 };
 
+BankAccount accounts[TotalAccounts];       // Total Accounts = 500
+
 void head()
 {
       cout<<"\n ..............................................................................................."<<endl
@@ -119,59 +132,84 @@ void head()
                   <<" ..............................................................................................."<<endl
                   <<" ...............................................................................................\n\n"<<endl;
 }
+
 int options(BankAccount a)
 {
       int opt;
       askOptions:
       cout<<"\n\n Please select any : \n"
-                  <<" 1) Show my informations \n 2) Update information \n 3) Deposit \n 4) Withdraw \n 5) Register a new account \n 6) Exit \n : ";
+                  <<" 1) Show my informations \n 2) Update information \n 3) Deposit \n 4) Withdraw \n 5) Register a new account \n 6) Search Account \n 7) Exit \n : ";
       cin>>opt;
-      switch(opt)
+      if(opt==1)
       {
-      case 1:
-            system("cls");
-            head();
-            a.showData();
-            options(a);
-            break;
-      case 2:
-            system("cls");
-            head();
-            a.updateData();
-            system("cls");
-            head();
-            a.showData();
-            options(a);
-            break;
-      case 3:
-            system("cls");
-            head();
-            a.deposit();
-            options(a);
-            break;
-      case 4:
-            system("cls");
-            head();
-            a.withdraw();
-            options(a);
-            break;
-      case 5:
-            return 0;
-      case 6:
-            system("cls");
-            head();
-            cout<<"\n\t\t Thank you so much! \n\n\n";
-            exitProgram=true;
-            break;
-      default:
-            cout<<" Invalid Input !!\n Try again! \n\n";
-            goto askOptions;
+        system("cls");
+        head();
+        a.showData();
+        options(a);
+      } else if(opt==2)
+      {
+        system("cls");
+        head();
+        a.updateData();
+        system("cls");
+        head();
+        a.showData();
+        options(a);
+
+      } else if(opt==3)
+      {
+        system("cls");
+        head();
+        a.deposit();
+        options(a);
+
+      } else if(opt==4)
+      {
+        system("cls");
+        head();
+        a.withdraw();
+        options(a);
+
+      } else if(opt==5)
+      {
+        return 0;
+
+      } else if(opt==6)
+      {
+        system("cls");
+        head();
+        string temp;
+        bool notFound=true;
+        cout<<"\n Enter Account Number : ";
+        cin>>temp;
+        cout<<"\n\n\n";
+        for(int i=0; i<TotalAccounts; i++)
+        {
+            if(temp==accounts[i].accountNo)
+            {
+                accounts[i].showData();
+                notFound = false;
+            }
+        }
+        if(notFound)cout<<"\n Couldn't find this account. \n\n";
+        options(a);
+      } else if(opt==7)
+      {
+        system("cls");
+        head();
+        cout<<"\n\t\t Thank you so much! \n\n\n";
+        exitProgram=true;
+
+      }
+      else
+      {
+        cout<<" Invalid Input !!\n Try again! \n\n";
+        goto askOptions;
       }
 }
 
 int main()
 {
-      BankAccount accounts[TotalAccounts];       // Total Accounts = 500
       for(int i=0; i<TotalAccounts; i++)
       {
             system("cls");
