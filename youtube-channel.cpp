@@ -24,16 +24,18 @@ static ll totalChannels=0;
 void welcome();
 void searchAccount(string);
 void head();
+class Videos;
 
 class YTChannel
 {
-      string id, ownerName1, ownerName2, ownerName3, fullName,mail;
-      double subsc=0;
+      string ownerName1, ownerName2, ownerName3, fullName, mail;
+      vector <string> subscList;
+      ll subsc=0, channelIndex=0;
 public:
-      string name;
+      string name, id;
       void createAccount();
-      void accountInfo();
-      friend void changeSubsc(YTChannel &o, bool doSub){ if(doSub)o.subsc++; else o.subsc--; }
+      void showVideos();
+      void accountInfo(bool);
 };
 
 void YTChannel :: createAccount()
@@ -51,14 +53,26 @@ void YTChannel :: createAccount()
       }
       cout<<"\n Enter channel name : "; cin>>name;
       cout<<"\n Enter your e-mail : "; cin>>mail;
+      channelIndex = totalChannels;
       string str = to_string(totalChannels);
       id = "ytaccNo"+str;
       totalChannels++;
 }
 
-void YTChannel :: accountInfo()
+void YTChannel :: accountInfo(bool x)
 {
-      cout<<"\n Channel Name : "<<name<<endl<<" Owner Name : "<<fullName<<endl<<" E-mail : "<<mail<<endl<<" Channel ID : "<<id<<endl<<" Total Subscribers : "<<subsc<<endl; anykey
+      int optSub; bool subsAlready=false, loopedAlready=false; lbl:
+      cout<<"\n Channel Name : "<<name<<endl;
+      cout<<"\n Owner Name : "<<fullName<<endl<<" E-mail : "<<mail<<endl<<" Channel ID : "<<id<<endl<<" Total Subscribers : "<<subsc<<endl;
+      if(x)anykey
+      else{
+            if(loopedAlready&& !subsAlready)cout<<"\n You have successfully unsubscribed to \""<<name<<"\" ";
+            if(!subsAlready){ cout<<"\n\n Do you want to Subscribe\n (1)YES \t (2)NO \n :>"; cin>>optSub; if(optSub==1){  subsc++; system("cls"); head(); subsAlready=true; goto lbl; }}
+            else {
+                        cout<<"\n You have successfully subscribed to \""<<name<<"\" \n\n";
+                        cout<<"\n\n Do you want to Unsubscribe\n (1)YES \t (2)NO \n :>"; cin>>optSub; if(optSub==1){  subsc--; system("cls"); head(); subsAlready=false; loopedAlready=true; goto lbl; }
+            }
+      }
 }
 
 class Videos : public YTChannel
@@ -78,7 +92,7 @@ class Videos : public YTChannel
       }
       void showVideos()
       {
-            head(); cout<<"\n Uploaded Videos : \n";
+            head(); cout<<"\n Channel : "<<name<<"\n\n Uploaded Videos : \n";
             for(int i=titles.size()-1; i>=0; i--)
             {
                   cout<<"\t~> "<<titles[i]<<endl;
@@ -94,27 +108,24 @@ class Videos : public YTChannel
       }
 };
 
-void head()
-{
-      system("cls");
-      cout<<"\n\n\n\t\t\t\t YouTube \n"; cout<<"\t-------------------------------------------------------------\n\n";
-}
-
-vector <Videos> obj;
+vector <Videos> obj;    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX>>>    array of objects
+ll last = obj.size()-1;
 
 void menu(Videos &o)
 {
+      Videos *x= &obj[obj.size()-1];
       int opt; string s;  label2: cout<<"\n 1) Create Account \t 2) Upload Videos \t 3) Search \t 4) Videos \n :>"; cin>>opt;
       if(totalChannels==0 && opt!=1)
       {
             head(); cout<<"\n Please create an account first! \n\n"; goto label2;
       }
+
       switch(opt)
       {
             case 1: o.createAccount();  obj.push_back(o); break;
-            case 2: o.uploadVid(); break;
+            case 2: obj[obj.size()-1].uploadVid(); break;
             case 3: head();  cout<<"\n Enter the channel name you want to search \n :>"; cin>>s; searchAccount(s); break;
-            case 4: o.showVideos(); break;
+            case 4: obj[obj.size()-1].showVideos(); break;
       }
 }
 
@@ -124,28 +135,32 @@ int main()
       welcome();
       Videos o;
       label1:
-            system("cls"); head(); menu(o); goto label1;
+            head(); menu(o); goto label1;
       return 0;
 }
 
-void searchAccount(string s)
+void searchAccount(string s)   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX~->>>    function to search objects
 {
       head();
       fr(i, 0, obj.size())
       {
             if(obj[i].name==s)
             {
-                  obj[i].accountInfo(); break;
+                  bool own=false;
+                  if(i==obj.size()-1)own=true;
+                  obj[i].accountInfo(own);  obj[i].showVideos(); break;
             }
       }
 }
 
 void welcome()
 {
-      cout<<"\n\n\t\t\t\t WELCOME  TO \n";
-       Sleep(250); cout<<"\n\t\t\t\t   Y"; Sleep(150); cout<<"o"; Sleep(150); cout<<"u"; Sleep(150); cout<<"T"; Sleep(150); cout<<"u"; Sleep(150); cout<<"b"; Sleep(150); cout<<"e \n\n\n"; Sleep(950);
+      cout<<"\n\n\t\t\t\t\t WELCOME\n"; cout<<"\t\t\t\t\t   TO \n";
+      Sleep(350); cout<<"\n\t\t\t\t\t Y"; Sleep(130); cout<<"o"; Sleep(130); cout<<"u"; Sleep(130); cout<<"T"; Sleep(130); cout<<"u"; Sleep(130); cout<<"b"; Sleep(130); cout<<"e \n\n\n"; Sleep(650);
+}
+
+void head()
+{
       system("cls");
       cout<<"\n\n\n\t\t\t\t YouTube \n"; cout<<"\t-------------------------------------------------------------\n\n";
 }
-
-
