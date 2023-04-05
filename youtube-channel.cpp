@@ -32,7 +32,7 @@ class YTChannel
       string ownerName1, ownerName2, ownerName3, fullName, mail;
 public:
       bool subscription=false, unsubscribe=false;
-      ll SLno=1;
+      ll SLno;
       vector <ll> SL_List;
       ll subsc=0;
       string name, id;
@@ -56,7 +56,7 @@ void YTChannel :: createAccount()
       }
       cout<<"\n Enter channel name : "; cin>>name;
       cout<<"\n Enter your e-mail : "; cin>>mail;
-      SLno += totalChannels;
+      SLno = totalChannels;
       string str = to_string(totalChannels);
       id = "ytaccNo"+str;
       totalChannels++;
@@ -133,7 +133,7 @@ void menu(Videos &o)
 
 int main()
 {
-      int opt3;
+      int opt3;            //   Sleep(4350);
       welcome();
       Videos o;
       label1:
@@ -152,13 +152,14 @@ void searchAccount(string s)   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
                   if(i==obj.size()-1)own=true;
                   obj[i].accountInfo(own, checkSubs(obj[i].SLno), i);
                   ll x = obj[i].SLno;
-                  if(obj[i].subscription)obj[last].SL_List.push_back(x);
+                  if(obj[i].subscription){ obj[obj.size()-1].SL_List.push_back(x); obj[i].subscription=false; }
                   if(obj[i].unsubscribe)
                   {
-                        fr(j, 0, obj[last].SL_List.size())
+                        fr(j, 0, obj[obj.size()-1].SL_List.size())
                         {
-                              if(obj[last].SL_List[j]==x)obj[last].SL_List[j]=0;
+                              if(obj[obj.size()-1].SL_List[j]==x)obj[obj.size()-1].SL_List[j]=-1;
                         }
+                        obj[i].unsubscribe=false;
                   }
                   obj[i].showVideos();
                   break;
@@ -168,9 +169,9 @@ void searchAccount(string s)   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 bool checkSubs(ll x)
 {
-      fr(j, 0, obj[last].SL_List.size())
+      fr(j, 0, obj[obj.size()-1].SL_List.size())
       {
-            if(obj[last].SL_List[j]==x)return true;
+            if(obj[obj.size()-1].SL_List[j]==x)return true;
       }
       return false;
 }
@@ -186,4 +187,3 @@ void head()
       system("cls");
       cout<<"\n\n\n\t\t\t\t YouTube \n"; cout<<"\t-------------------------------------------------------------\n\n";
 }
-
