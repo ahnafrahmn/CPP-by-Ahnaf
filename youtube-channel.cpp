@@ -25,17 +25,20 @@ void welcome();
 void searchAccount(string);
 void head();
 class Videos;
+bool checkSubs(ll);
 
 class YTChannel
 {
       string ownerName1, ownerName2, ownerName3, fullName, mail;
-      vector <string> subscList;
-      ll subsc=0, channelIndex=0;
 public:
+      bool subscription=false, unsubscribe=false;
+      ll SLno=1;
+      vector <ll> SL_List;
+      ll subsc=0;
       string name, id;
       void createAccount();
       void showVideos();
-      void accountInfo(bool);
+      void accountInfo(bool, bool, int);
 };
 
 void YTChannel :: createAccount()
@@ -53,13 +56,13 @@ void YTChannel :: createAccount()
       }
       cout<<"\n Enter channel name : "; cin>>name;
       cout<<"\n Enter your e-mail : "; cin>>mail;
-      channelIndex = totalChannels;
+      SLno += totalChannels;
       string str = to_string(totalChannels);
       id = "ytaccNo"+str;
       totalChannels++;
 }
 
-void YTChannel :: accountInfo(bool x)
+void YTChannel :: accountInfo(bool x, bool y, int i)
 {
       int optSub; bool subsAlready=false, loopedAlready=false; lbl:
       cout<<"\n Channel Name : "<<name<<endl;
@@ -67,10 +70,10 @@ void YTChannel :: accountInfo(bool x)
       if(x)anykey
       else{
             if(loopedAlready&& !subsAlready)cout<<"\n You have successfully unsubscribed to \""<<name<<"\" ";
-            if(!subsAlready){ cout<<"\n\n Do you want to Subscribe\n (1)YES \t (2)NO \n :>"; cin>>optSub; if(optSub==1){  subsc++; system("cls"); head(); subsAlready=true; goto lbl; }}
+            if(!subsAlready && !y){ cout<<"\n\n Do you want to Subscribe\n (1)YES \t (2)NO \n :>"; cin>>optSub; if(optSub==1){  subsc++; subscription=true; unsubscribe=false; y=true; system("cls"); head(); subsAlready=true; goto lbl; }}
             else {
-                        cout<<"\n You have successfully subscribed to \""<<name<<"\" \n\n";
-                        cout<<"\n\n Do you want to Unsubscribe\n (1)YES \t (2)NO \n :>"; cin>>optSub; if(optSub==1){  subsc--; system("cls"); head(); subsAlready=false; loopedAlready=true; goto lbl; }
+                        if(y && loopedAlready)cout<<"\n You have successfully subscribed to \""<<name<<"\" ";
+                        cout<<"\n\n Do you want to Unsubscribe\n (1)YES \t (2)NO \n :>"; cin>>optSub; if(optSub==1){  subsc--; subscription=false; unsubscribe=true; system("cls"); head(); subsAlready=false; y=false; loopedAlready=true; goto lbl; }
             }
       }
 }
@@ -108,12 +111,11 @@ class Videos : public YTChannel
       }
 };
 
-vector <Videos> obj;    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX>>>    array of objects
+vector <Videos> obj;    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX >>>    array of objects
 ll last = obj.size()-1;
 
 void menu(Videos &o)
 {
-      Videos *x= &obj[obj.size()-1];
       int opt; string s;  label2: cout<<"\n 1) Create Account \t 2) Upload Videos \t 3) Search \t 4) Videos \n :>"; cin>>opt;
       if(totalChannels==0 && opt!=1)
       {
@@ -139,7 +141,7 @@ int main()
       return 0;
 }
 
-void searchAccount(string s)   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX~->>>    function to search objects
+void searchAccount(string s)   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX >>>    function to search objects
 {
       head();
       fr(i, 0, obj.size())
@@ -148,9 +150,29 @@ void searchAccount(string s)   //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
             {
                   bool own=false;
                   if(i==obj.size()-1)own=true;
-                  obj[i].accountInfo(own);  obj[i].showVideos(); break;
+                  obj[i].accountInfo(own, checkSubs(obj[i].SLno), i);
+                  ll x = obj[i].SLno;
+                  if(obj[i].subscription)obj[last].SL_List.push_back(x);
+                  if(obj[i].unsubscribe)
+                  {
+                        fr(j, 0, obj[last].SL_List.size())
+                        {
+                              if(obj[last].SL_List[j]==x)obj[last].SL_List[j]=0;
+                        }
+                  }
+                  obj[i].showVideos();
+                  break;
             }
       }
+}
+
+bool checkSubs(ll x)
+{
+      fr(j, 0, obj[last].SL_List.size())
+      {
+            if(obj[last].SL_List[j]==x)return true;
+      }
+      return false;
 }
 
 void welcome()
@@ -164,3 +186,4 @@ void head()
       system("cls");
       cout<<"\n\n\n\t\t\t\t YouTube \n"; cout<<"\t-------------------------------------------------------------\n\n";
 }
+
