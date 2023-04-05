@@ -112,7 +112,6 @@ class Videos : public YTChannel
 };
 
 vector <Videos> obj;    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX >>>    array of objects
-ll last = obj.size()-1;
 
 void menu(Videos &o)
 {
@@ -133,7 +132,7 @@ void menu(Videos &o)
 
 int main()
 {
-      int opt3;            //   Sleep(4350);
+      int opt3;  
       welcome();
       Videos o;
       label1:
@@ -187,3 +186,4 @@ void head()
       system("cls");
       cout<<"\n\n\n\t\t\t\t YouTube \n"; cout<<"\t-------------------------------------------------------------\n\n";
 }
+
