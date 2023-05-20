@@ -17,7 +17,7 @@
 #define copy(a,b) for(ll i=0; i<a.size(); i++)b[i]=a[i];
 #define anykey cout<<"\n\t(press any key to continue)", getch();
 using namespace std;
-//  IG - ahnaf.rahmn  ,   E-mail - ahnafx24@gmail.com ,    ID - 22203203
+//  IG - ahnaf.rahmn  ,   E-mail - ahnafx24@gmail.com
 
 int places=3;
 bool rangeStatus=false;
@@ -32,12 +32,6 @@ float functionType2(float x)
       float y=a*pow(x, 2) + b*x + c; return y;
 }
 
-float check(float s)
-{
-      if(ceil(s)==floor(s))return trunc(s);
-      else return s;
-}
-
 void table(float m, float n, float p, float q, float temp1, float temp2)
 {
       system("cls");
@@ -49,7 +43,7 @@ void table(float m, float n, float p, float q, float temp1, float temp2)
             float preTemp;
             for(i=1; i>0; i++)
             {
-                  cout<<"\t "<<left<<setw(5)<<i <<left<<setw(20)<<check(m)<<left<<setw(25)<<check(n)<<left<<setw(30)<<temp1<<left<<setw(10)<<temp2<<"\n\n";
+                  cout<<"\t "<<left<<setw(5)<<i <<left<<setw(20)<<m<<left<<setw(25)<<n<<left<<setw(30)<<temp1<<left<<setw(10)<<temp2<<"\n\n";
                   int s=trunc(temp1*pow(10, places)), t=trunc(preTemp*pow(10, places));
                   if(s==t)break;
                   preTemp=temp1;
