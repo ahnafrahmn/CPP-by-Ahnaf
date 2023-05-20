@@ -1,5 +1,7 @@
-#include<bits/stdc++.h>
-#include<conio.h>
+#include<stdio.h>
+#include<iostream>
+#include<iomanip>
+#include<math.h>
 #define ll long long
 #define endl "\n"
 #define fr(i,a,b) for(int i  = a ; i < b ; i++)
