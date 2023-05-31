@@ -60,11 +60,12 @@ void table(float m, float n, float p, float q, float temp1, float temp2)
 
 void rootType1()
 {
+      bool key=0;
       float p=functionType1(m), q=functionType1(n);
       cout<<"\n\n Let, \n f(x) = "<<a<<"x^3 + "<<b<<"x^2 + "<<c<<"x + "<<d<<" = 0 \n"
                   <<" f("<<m<<") = "<<a<<"*"<<m<<"^3 + "<<b<<"*"<<m<<"^2 + "<<c<<"*"<<m<<" + "<<d<<" = "<<p<<"\n"
                   <<" f("<<n<<") = "<<a<<"*"<<n<<"^3 + "<<b<<"*"<<n<<"^2 + "<<c<<"*"<<n<<" + "<<d<<" = "<<q<<"\n";
-      if(rangeStatus){ if((p>0 && q>0)||(p<0 && q<0))cout<<"\n There maybe exists a root or maybe not.\n"; }
+      if(rangeStatus){ if((p>0 && q>0)||(p<0 && q<0)){cout<<"\n There maybe exists a root or maybe not.\n"; key=1;} }
       else{
             loop1:
                   if(m>50){cout<<"\n\t Error!!\n\n"; return;}
@@ -75,13 +76,17 @@ void rootType1()
                   goto loop1;
             }
       }
-      float temp1 = (m*q-n*p)/(q-p), temp2 = functionType1(temp1);
-      if(p<0){ cout<<"\n Since, f("<<m<<") < 0 and f("<<n<<") > 0. \n So, f(x) has at least one root lies between a = "<<m<<", b = "<<n<<"\n "; }
-      else { cout<<"\n Since, f("<<m<<") > 0 and f("<<n<<") < 0. \n So, f(x) has at least one root lies between a = "<<m<<", b = "<<n<<"\n "; }
-      cout<<" The approximation of the root is x1 = { a*f(b) - b*f(a) } / { f(b) - f(a) } = "<<temp1<<"\n f(x1) = "<<temp2<<"\n";
-      if(temp2>0)n=temp1; else m=temp1;
-      cout<<"\n\n So, root lies between a = "<<m<<", b = "<<n<<"\n The process is repeated and calculation of the successive approximation roots are shown in the following table : \n\n";
-      table(m, n, p, q, temp1, temp2);
+      if(!key)
+      {
+            float temp1 = (m*q-n*p)/(q-p), temp2 = functionType1(temp1);
+            if(p<0){ cout<<"\n Since, f("<<m<<") < 0 and f("<<n<<") > 0. \n So, f(x) has at least one root lies between a = "<<m<<", b = "<<n<<"\n "; }
+            else { cout<<"\n Since, f("<<m<<") > 0 and f("<<n<<") < 0. \n So, f(x) has at least one root lies between a = "<<m<<", b = "<<n<<"\n "; }
+            cout<<" The approximation of the root is x1 = { a*f(b) - b*f(a) } / { f(b) - f(a) } = "<<temp1<<"\n f(x1) = "<<temp2<<"\n";
+            if(temp2>0)n=temp1; else m=temp1;
+            cout<<"\n\n So, root lies between a = "<<m<<", b = "<<n<<"\n The process is repeated and calculation of the successive approximation roots are shown in the following table : \n\n";
+            table(m, n, p, q, temp1, temp2);
+
+      }
 }
 
 int main()
