@@ -1,11 +1,68 @@
+#include<bits/stdc++.h>
+#include<stdio.h>
 #include<iostream>
+#include<iomanip>
+#include<math.h>
+#define ll long long
+#define endl "\n"
+#define fr(i,a,b) for(int i  = a ; i < b ; i++)
+#define yy cout<<"YES"<<"\n";
+#define loop(b) for(int i  = 0 ; i < b ; i++)
+#define nn cout<<"NO"<<"\n";
+#define pcnt cout<<cnt<<"\n";
+#define fio ios_base::sync_with_stdio(false);cin.tie(NULL)
+#define pb push_back
+#define setp(x, y) cout << fixed << setprecision(x) << y;
+#define ss string s; cin>>s;
+#define tt int t; cin>>t; while(t--)
+#define en cout<<"\n";
+#define print(a,n) for(ll i=0; i<n; i++)cout<<a[i]<<" ";
+#define read(a,n) for(ll i=0; i<n; i++)cin>>a[i];
+#define copy(a,b) for(ll i=0; i<a.size(); i++)b[i]=a[i];
+#define anykey cout<<"\n\t(press any key to continue)", getch();
+#define print(x) cout<<x;
+#define input(y) cin>>y;
 using namespace std;
+//  IG - ahnaf.rahmn  ,   E-mail - ahnafx24@gmail.com
+
+
 
 int main()
 {
-  
-     return 0;
+
+      return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
@@ -22,6 +79,26 @@ int main()
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ************************************************************************************************************************************
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                                          SWAPPING::
+
+      int temp;               temp=0,             a=10,       b=5
+      temp = a;               temp=10,          a=10,       b=5
+      a = b;                        temp=10,        a=5,         b=5
+      b = temp;               temp = 10,        a=5,         b=10
+
+                                                REFERENCE::
+
+
+int main()
+{
+      int a = 10;
+      int *b = &a; //  &a = address of a
+      cout<<a<<endl;
+      cout<<&a<<endl;
+      cout<<b<<endl;    // for this case b is reference
+     return 0;
+}
 
 
 
