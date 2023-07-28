@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include<iostream>
 #include<iomanip>
+#include<windows.h>
+#include<conio.h>
 #include<math.h>
 #define ll long long
 #define endl "\n"
@@ -19,36 +21,51 @@
 #define print(a,n) for(ll i=0; i<n; i++)cout<<a[i]<<" ";
 #define read(a,n) for(ll i=0; i<n; i++)cin>>a[i];
 #define copy(a,b) for(ll i=0; i<a.size(); i++)b[i]=a[i];
-#define anykey cout<<"\n\t(press any key to continue)", getch();
-#define print(x) cout<<x;
-#define input(y) cin>>y;
+#define anykey cout<<"\n\t(press any key to continue)\n", getch();
 using namespace std;
 //  IG - ahnaf.rahmn  ,   E-mail - ahnafx24@gmail.com
 
 
 
-int main()
+
+
+class A
+{
+protected:
+      int m, n;
+public:
+      void get()
+      {
+            cout<<"\n Enter 2 integers : "; cin>>m>>n;
+      }
+      void mul()
+      {
+            cout<<" Multiplication : "<<m*n<<endl;
+      }
+};
+
+class B : public A
+{
+public :
+      void show()
+      {
+            get();
+            cout<<"\n The numbers were "<<m<<" and "<<n<<"\n Sum : "<<m+n<<endl;
+      }
+};
+
+class C : public A, public B
 {
 
+};
+
+int main()
+{
+      C c;
+      c.show();
+      c.B::mul();
       return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -316,6 +333,50 @@ int main()
     cout<<"Area of a Reactangular : "<<area(5, 2)<<endl;
     return 0;
 }
+
+                                                        :: Inheritence ::
+                                                        -------------------
+
+
+class A
+{
+protected:
+      int m, n;
+public:
+      void get()
+      {
+            cout<<"\n Enter 2 integers : "; cin>>m>>n;
+      }
+      void mul()
+      {
+            cout<<" Multiplication : "<<m*n<<endl;
+      }
+};
+
+class B : public A
+{
+public :
+      void show()
+      {
+            get();
+            cout<<"\n The numbers were "<<m<<" and "<<n<<"\n Sum : "<<m+n<<endl;
+      }
+};
+
+class C : public A, public B
+{
+
+};
+
+int main()
+{
+      C c;
+      c.show();
+      c.B::mul();
+      return 0;
+}
+
+
 
 
 */
