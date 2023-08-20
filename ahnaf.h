@@ -29,25 +29,21 @@ using namespace std;
 
 //  IG - ahnaf.rahmn  ,   E-mail - ahnafx24@gmail.com
 
-string takePassword()
+string takePassword() // this function takes password and hides every character while  typing password
 {
-      string password="";
-      char c;
-      while(c != 13)
+      string password=""; char c;
+      while(true)
       {
-            if(password.size())
-            {
-                  usleep(130000);
-                  printf("\b*");
-            }
-            c = getch();
-            while(c == 8)
-            {
-                  printf("\b \b");
-                  c = getch();
-            }
-            cout<<c;
-            password+=c;
+                  taking:
+                  c = getch(); if(c == 8 && password.size()==0)continue; else if(c==13)break;
+                  while(c == 8)
+                  {
+                        cout<<"\b \b";
+                        password=password.substr(0, password.size()-1); goto taking;
+                  }
+                  cout<<c; usleep(130000); 
+                  password+=c;
+                  cout<<"\b*";
       }
       return password;
 }
